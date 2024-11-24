@@ -12,7 +12,6 @@ import lombok.*;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "chat_id")
     private long chatId;
 
