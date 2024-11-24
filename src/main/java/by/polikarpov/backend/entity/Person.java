@@ -1,5 +1,6 @@
 package by.polikarpov.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,9 +28,11 @@ public class Person {
     private String phone;
 
     @OneToOne(mappedBy = "person")
+    @JsonManagedReference
     private ImageOfPerson image;
 
     @OneToOne(mappedBy = "person")
+    @JsonManagedReference
     private Executor executor;
 
 }

@@ -1,5 +1,6 @@
 package by.polikarpov.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,5 +21,6 @@ public class UserStatus {
     private String category;
 
     @OneToMany(mappedBy = "userStatus")
+    @JsonBackReference
     private List<Resume> resumes;
 }

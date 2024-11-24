@@ -1,5 +1,6 @@
 package by.polikarpov.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,5 +21,6 @@ public class ActivityArea {
     private String type;
 
     @OneToMany(mappedBy = "activityArea")
+    @JsonBackReference
     private List<Resume> resume;
 }

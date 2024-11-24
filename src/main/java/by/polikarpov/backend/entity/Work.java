@@ -1,5 +1,6 @@
 package by.polikarpov.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,6 +29,7 @@ public class Work {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id")
+    @JsonBackReference
     private Executor executor;
 
 }

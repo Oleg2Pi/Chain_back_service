@@ -1,5 +1,6 @@
 package by.polikarpov.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class WorkExperience {
     private String category;
 
     @OneToMany(mappedBy = "workExperience")
+    @JsonBackReference
     private List<Resume> resumes;
 
 }

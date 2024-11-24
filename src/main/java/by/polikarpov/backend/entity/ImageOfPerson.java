@@ -1,5 +1,6 @@
 package by.polikarpov.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class ImageOfPerson {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_chat_id")
+    @JsonBackReference
     private Person person;
 
 }
