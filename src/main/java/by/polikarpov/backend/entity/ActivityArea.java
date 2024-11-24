@@ -1,4 +1,4 @@
-package by.polikarpov.backend.entiity;
+package by.polikarpov.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

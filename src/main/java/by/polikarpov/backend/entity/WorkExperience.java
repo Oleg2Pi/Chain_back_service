@@ -1,4 +1,4 @@
-package by.polikarpov.backend.entiity;
+package by.polikarpov.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,14 +11,16 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @ToString(exclude = {"resumes"})
-public class UserStatus {
+public class WorkExperience {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false)
     private String category;
 
-    @OneToMany(mappedBy = "userStatus")
+    @OneToMany(mappedBy = "workExperience")
     private List<Resume> resumes;
+
 }

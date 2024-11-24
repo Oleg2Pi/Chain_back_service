@@ -1,4 +1,4 @@
-package by.polikarpov.backend.entiity;
+package by.polikarpov.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -20,7 +20,7 @@ public class ImageOfPerson {
     private String filePath;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "person_chat_id")
     private Person person;
 
 }

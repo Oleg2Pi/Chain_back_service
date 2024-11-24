@@ -1,4 +1,4 @@
-package by.polikarpov.backend.entiity;
+package by.polikarpov.backend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,7 +13,8 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "chat_id")
+    private long chatId;
 
     @Column(name = "first_name")
     private String firstName;
@@ -25,9 +26,6 @@ public class Person {
     private String usernameTG;
 
     private String phone;
-
-    @Column(name = "chat_id")
-    private long chatId;
 
     @OneToOne(mappedBy = "person")
     private ImageOfPerson image;
