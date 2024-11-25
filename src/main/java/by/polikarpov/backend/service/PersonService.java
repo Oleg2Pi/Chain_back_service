@@ -1,6 +1,8 @@
 package by.polikarpov.backend.service;
 
+import by.polikarpov.backend.dto.PersonsHomePageDto;
 import by.polikarpov.backend.entity.Person;
+import by.polikarpov.backend.mapper.PersonMapper;
 import by.polikarpov.backend.repository.PersonRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,11 @@ import java.util.List;
 public class PersonService implements CommonService<Person, Long> {
 
     private final PersonRepository repository;
+    private final PersonMapper mapper;
 
     @Autowired
-    public PersonService (PersonRepository repository) {
+    public PersonService (PersonRepository repository, PersonMapper mapper) {
+        this.mapper = mapper;
         this.repository = repository;
     }
 
@@ -53,5 +57,11 @@ public class PersonService implements CommonService<Person, Long> {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Person with chat_id: " + chatId + " not found"
                 ));
+    }
+
+    public List<PersonsHomePageDto> findAllByHomePage() {
+        return repository.findAll().stream()
+                .map(mapper::toDto)
+                .toList();
     }
 }

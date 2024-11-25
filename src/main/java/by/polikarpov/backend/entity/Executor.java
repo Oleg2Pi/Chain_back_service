@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ToString(exclude = {"person", "resume", "work"})
+@ToString(exclude = {"person", "resume", "works"})
 public class Executor {
 
     @Id
@@ -26,7 +28,7 @@ public class Executor {
     @JsonManagedReference
     private Resume resume;
 
-    @OneToOne(mappedBy = "executor")
+    @OneToMany(mappedBy = "executor")
     @JsonManagedReference
-    private Work work;
+    private List<Work> works;
 }

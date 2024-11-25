@@ -1,5 +1,6 @@
 package by.polikarpov.backend.controller;
 
+import by.polikarpov.backend.dto.PersonsHomePageDto;
 import by.polikarpov.backend.entity.Person;
 import by.polikarpov.backend.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,10 @@ public class PersonController {
     @GetMapping
     public ResponseEntity<List<Person>> getAllPerson() {
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/home")
+    public ResponseEntity<List<PersonsHomePageDto>> getHomePerson() {
+        return ResponseEntity.ok(service.findAllByHomePage());
     }
 }

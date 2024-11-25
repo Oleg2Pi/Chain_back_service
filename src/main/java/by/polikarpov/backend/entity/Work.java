@@ -27,7 +27,7 @@ public class Work {
     private String file;
     private String type;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id")
     @JsonBackReference
     private Executor executor;
