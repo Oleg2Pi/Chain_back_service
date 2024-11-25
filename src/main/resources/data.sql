@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS person
+CREATE TABLE person
 (
     chat_id     BIGINT PRIMARY KEY,
     first_name  VARCHAR(20),
@@ -7,38 +7,38 @@ CREATE TABLE IF NOT EXISTS person
     phone       VARCHAR(12)
 );
 
-CREATE TABLE IF NOT EXISTS image_of_person
+CREATE TABLE image_of_person
 (
     id             SERIAL PRIMARY KEY,
     person_chat_id BIGINT REFERENCES person (chat_id) ON DELETE CASCADE NOT NULL,
     file_path      TEXT
 );
 
-CREATE TABLE IF NOT EXISTS executor
+CREATE TABLE executor
 (
     id             SERIAL PRIMARY KEY,
     person_chat_id BIGINT REFERENCES person (chat_id) ON DELETE CASCADE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS activity_area
+CREATE TABLE activity_area
 (
     id   SERIAL PRIMARY KEY,
     type VARCHAR(124) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS work_experience
+CREATE TABLE work_experience
 (
     id       SERIAL PRIMARY KEY,
     category VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS user_status
+CREATE TABLE user_status
 (
     id       SERIAL PRIMARY KEY,
     category VARCHAR(60) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS resume
+CREATE TABLE resume
 (
     id                   SERIAL PRIMARY KEY,
     executor_id          INT REFERENCES executor (id) ON DELETE CASCADE NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS resume
     information_yourself TEXT
 );
 
-CREATE TABLE IF NOT EXISTS work
+CREATE TABLE work
 (
     id          SERIAL PRIMARY KEY,
     executor_id INT REFERENCES executor (id) ON DELETE CASCADE NOT NULL,
@@ -60,21 +60,24 @@ CREATE TABLE IF NOT EXISTS work
 );
 
 INSERT INTO activity_area (type)
-VALUES ('видеограф'),
-       ('монтажер'),
-       ('рилс-мейкер'),
-       ('фотограф'),
+VALUES ('Видео-креатор'),
+       ('Монтажер'),
+       ('Рилс-мейкер'),
+       ('Фотограф'),
        ('СММ');
 
 INSERT INTO user_status (category)
-VALUES ('Ищу работу'),
-       ('Рассматриваю предложения'),
-       ('Не ищу работу');
+VALUES ('ищу работу'),
+       ('рассматриваю предложения'),
+       ('не ищу работу'),
+       ('ищу заказ');
 
 INSERT INTO work_experience (category)
-VALUES ('1 год'),
-       ('3 года'),
-       ('5 лет');
+VALUES ('>1'),
+       ('2'),
+       ('3'),
+       ('4'),
+       ('<5');
 
 INSERT INTO person (chat_id, first_name, last_name, username_tg, phone)
 VALUES (123456, 'Oleg', 'Polikarpov', 'olegPolikarpov', '+798123812'),

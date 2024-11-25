@@ -15,7 +15,11 @@ public interface WorkRepository extends JpaRepository<Work, Integer> {
            "w.dateAdded DESC LIMIT 4")
     List<Work> findLastFourthWorksByExecutorId(Integer executorId);
 
-    @Query("SELECT w FROM Work w WHERE w.id <> :workId ORDER BY " +
+    @Query("SELECT w FROM Work w WHERE w.executor.id = :executorId AND w.id <> :workId ORDER BY " +
+           "w.dateAdded DESC LIMIT 8")
+    List<Work> findAllWorksWithoutOne(Integer workId, Integer executorId);
+
+    @Query("SELECT w FROM Work w WHERE w.executor.id = :id ORDER BY " +
            "w.dateAdded DESC")
-    List<Work> findAllWorksWithoutOne(Integer workId);
+    List<Work> findAllByExecutorId(Integer id);
 }

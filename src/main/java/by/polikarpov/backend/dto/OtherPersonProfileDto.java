@@ -17,4 +17,5 @@ public class OtherPersonProfileDto {
     private String executorActivityArea;
     private String executorStatusCategory;
     private List<Work> works;
+    private Integer executorId;
 }

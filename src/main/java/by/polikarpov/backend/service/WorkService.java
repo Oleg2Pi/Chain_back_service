@@ -57,4 +57,8 @@ public class WorkService implements CommonService<Work, Integer>{
                 "Work with id: " + id + " not found"
         ));
     }
+
+    public List<Work> findAllByExecutorId(Integer id) {
+        return repository.findAllByExecutorId(id);
+    }
 }

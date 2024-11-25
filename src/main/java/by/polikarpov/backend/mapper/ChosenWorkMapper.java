@@ -39,7 +39,7 @@ public class ChosenWorkMapper {
             personImage = work.getExecutor().getPerson().getImage().getFilePath();
         }
 
-        List<Work> works = repository.findAllWorksWithoutOne(work.getId());
+        List<Work> works = repository.findAllWorksWithoutOne(work.getId(), work.getExecutor().getId());
 
         return new WorkPageDto(
                 chatId,

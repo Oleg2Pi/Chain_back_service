@@ -80,6 +80,7 @@ public class PersonMapper {
         String activityArea = null;
         String statusCategory = null;
         List<Work> works = new ArrayList<>();
+        int executorId = -1;
 
         if (person.getExecutor() != null) {
             if (person.getExecutor().getResume() != null) {
@@ -92,6 +93,7 @@ public class PersonMapper {
                         .orElse(null);
             }
 
+            executorId = person.getExecutor().getId();
             works = repository.findLastFourthWorksByExecutorId(person.getExecutor().getId());
         }
 
@@ -100,7 +102,8 @@ public class PersonMapper {
                 personImage,
                 activityArea,
                 statusCategory,
-                works
+                works,
+                executorId
         );
     }
 }
