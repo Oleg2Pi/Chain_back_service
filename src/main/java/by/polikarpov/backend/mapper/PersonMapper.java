@@ -1,6 +1,6 @@
 package by.polikarpov.backend.mapper;
 
-import by.polikarpov.backend.dto.OtherPersonProfileDto;
+import by.polikarpov.backend.dto.PersonProfileDto;
 import by.polikarpov.backend.dto.PersonsHomePageDto;
 import by.polikarpov.backend.entity.*;
 import by.polikarpov.backend.repository.WorkRepository;
@@ -68,7 +68,7 @@ public class PersonMapper {
      * @param person Исходный объект Person
      * @return DTO OtherPersonProfileDto или null, если person равен null
      */
-    public OtherPersonProfileDto toDtoOtherProfile(Person person) {
+    public PersonProfileDto toDtoProfile(Person person) {
         if (person == null) {
             return null;
         }
@@ -97,7 +97,8 @@ public class PersonMapper {
             works = repository.findLastFourthWorksByExecutorId(person.getExecutor().getId());
         }
 
-        return new OtherPersonProfileDto(
+        return new PersonProfileDto(
+                person.getChatId(),
                 person.getFirstName(),
                 personImage,
                 activityArea,

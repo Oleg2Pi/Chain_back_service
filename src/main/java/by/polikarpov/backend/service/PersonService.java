@@ -1,6 +1,6 @@
 package by.polikarpov.backend.service;
 
-import by.polikarpov.backend.dto.OtherPersonProfileDto;
+import by.polikarpov.backend.dto.PersonProfileDto;
 import by.polikarpov.backend.dto.PersonsHomePageDto;
 import by.polikarpov.backend.entity.Person;
 import by.polikarpov.backend.mapper.PersonMapper;
@@ -66,8 +66,8 @@ public class PersonService implements CommonService<Person, Long> {
                 .toList();
     }
 
-    public OtherPersonProfileDto findOtherProfileByChatId(Long chatId) {
+    public PersonProfileDto findProfileByChatId(Long chatId) {
         Person person = findPersonByChatId(chatId);
-        return mapper.toDtoOtherProfile(person);
+        return mapper.toDtoProfile(person);
     }
 }

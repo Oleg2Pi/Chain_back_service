@@ -10,8 +10,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OtherPersonProfileDto {
+public class PersonProfileDto {
 
+    private Long personChatId;
     private String personFirstName;
     private String personImagePath;
     private String executorActivityArea;

@@ -22,4 +22,7 @@ public interface WorkRepository extends JpaRepository<Work, Integer> {
     @Query("SELECT w FROM Work w WHERE w.executor.id = :id ORDER BY " +
            "w.dateAdded DESC")
     List<Work> findAllByExecutorId(Integer id);
+
+    @Query("SELECT w.id FROM Work w ORDER BY w.id DESC LIMIT 1")
+    Integer findIndexLastWork();
 }

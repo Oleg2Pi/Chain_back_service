@@ -1,6 +1,6 @@
 package by.polikarpov.backend.controller;
 
-import by.polikarpov.backend.dto.OtherPersonProfileDto;
+import by.polikarpov.backend.dto.PersonProfileDto;
 import by.polikarpov.backend.dto.PersonsHomePageDto;
 import by.polikarpov.backend.entity.Person;
 import by.polikarpov.backend.service.PersonService;
@@ -35,7 +35,7 @@ public class PersonController {
     }
     
     @GetMapping("/{chatId}")
-    public ResponseEntity<OtherPersonProfileDto> findOtherProfile(@PathVariable Long chatId) {
-        return ResponseEntity.ok(service.findOtherProfileByChatId(chatId));
+    public ResponseEntity<PersonProfileDto> findProfile(@PathVariable Long chatId) {
+        return ResponseEntity.ok(service.findProfileByChatId(chatId));
     }
 }
