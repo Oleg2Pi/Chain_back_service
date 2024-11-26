@@ -41,6 +41,25 @@ public class FilesController {
         }
     }
 
+    @PostMapping("/image")
+    public ResponseEntity<String> saveImage(
+            @RequestParam("chatId") Long chatId,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("typeFile") String typeFile
+    ) {
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            service.saveImagePerson(file, chatId, typeFile);
+            return ResponseEntity.ok().build();
+        } catch (FileSaveException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Ошибка при загрузке файла: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Resource> getFile(@PathVariable Integer id) {
         try {

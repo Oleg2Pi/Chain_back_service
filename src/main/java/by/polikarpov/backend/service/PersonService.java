@@ -2,9 +2,11 @@ package by.polikarpov.backend.service;
 
 import by.polikarpov.backend.dto.PersonProfileDto;
 import by.polikarpov.backend.dto.PersonsHomePageDto;
+import by.polikarpov.backend.entity.Executor;
 import by.polikarpov.backend.entity.Person;
 import by.polikarpov.backend.mapper.PersonMapper;
 import by.polikarpov.backend.repository.PersonRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,5 +71,31 @@ public class PersonService implements CommonService<Person, Long> {
     public PersonProfileDto findProfileByChatId(Long chatId) {
         Person person = findPersonByChatId(chatId);
         return mapper.toDtoProfile(person);
+    }
+
+
+    public void createPerson(Long chatId, String firstName, String lastName, String usernameTG,
+                             String phone, String work) {
+        if (repository.findByChatId(chatId).isPresent()) {
+                throw new EntityExistsException("Person with chat_id: " + chatId + " already exists");
+            }
+
+            Person person = Person.builder()
+                    .chatId(chatId)
+                    .firstName(firstName)
+                    .lastName(lastName)
+                    .usernameTG(usernameTG)
+                    .phone(phone)
+                    .build();
+
+            if (work.equals("executor")) {
+                Executor executor = Executor.builder()
+                        .person(person)
+                        .build();
+
+                person.setExecutor(executor);
+            }
+
+            repository.save(person);
     }
 }

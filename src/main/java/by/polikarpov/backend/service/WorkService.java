@@ -70,7 +70,12 @@ public class WorkService implements CommonService<Work, Integer>{
 
     public Work saveWork(Integer executorId, String name,
                          Long dateAdded, String description, String type){
-        int index = repository.findIndexLastWork();
+        int index = 0;
+
+        if (repository.findIndexLastWork().isPresent()) {
+                index = repository.findIndexLastWork().get().getId();
+        }
+
         index++;
 
         Timestamp dateAddedNew = new Timestamp(dateAdded);

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WorkRepository extends JpaRepository<Work, Integer> {
     @Query("SELECT w FROM Work w WHERE w.executor.id = :executorId ORDER BY " +
@@ -24,5 +25,5 @@ public interface WorkRepository extends JpaRepository<Work, Integer> {
     List<Work> findAllByExecutorId(Integer id);
 
     @Query("SELECT w.id FROM Work w ORDER BY w.id DESC LIMIT 1")
-    Integer findIndexLastWork();
+    Optional<Work> findIndexLastWork();
 }
