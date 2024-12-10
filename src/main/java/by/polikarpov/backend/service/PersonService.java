@@ -5,7 +5,6 @@ import by.polikarpov.backend.dto.PersonsHomePageDto;
 import by.polikarpov.backend.entity.Executor;
 import by.polikarpov.backend.entity.Person;
 import by.polikarpov.backend.mapper.PersonMapper;
-import by.polikarpov.backend.repository.ExecutorRepository;
 import by.polikarpov.backend.repository.PersonRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,29 +16,26 @@ import java.util.List;
 @Service
 public class PersonService implements CommonService<Person, Long> {
 
-    private final PersonRepository personRepository;
+    private final PersonRepository repository;
     private final PersonMapper mapper;
-    private final ExecutorRepository executorRepository;
 
     @Autowired
-    public PersonService (PersonRepository personRepository, PersonMapper mapper,
-                          ExecutorRepository executorRepository) {
+    public PersonService (PersonRepository repository, PersonMapper mapper) {
         this.mapper = mapper;
-        this.personRepository = personRepository;
-        this.executorRepository = executorRepository;
+        this.repository = repository;
     }
 
     // person created in telegram-bot
     @Override
     public Person save(Person entity) {
-        return personRepository.save(entity);
+        return repository.save(entity);
     }
 
     @Override
     public Person update(Long chatId, Person entity) {
         findPersonByChatId(chatId);
         entity.setChatId(chatId);
-        return personRepository.save(entity);
+        return repository.save(entity);
     }
 
     @Override
@@ -49,25 +45,25 @@ public class PersonService implements CommonService<Person, Long> {
 
     @Override
     public List<Person> findAll() {
-        return personRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public boolean deleteById(Long chatId) {
         findPersonByChatId(chatId);
-        personRepository.deleteByChatId(chatId);
+        repository.deleteByChatId(chatId);
         return true;
     }
 
     private Person findPersonByChatId(Long chatId) {
-        return personRepository.findByChatId(chatId)
+        return repository.findByChatId(chatId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Person with chat_id: " + chatId + " not found"
                 ));
     }
 
     public List<PersonsHomePageDto> findAllByHomePage() {
-        return personRepository.findAll().stream()
+        return repository.findAll().stream()
                 .map(mapper::toDto)
                 .toList();
     }
@@ -80,7 +76,7 @@ public class PersonService implements CommonService<Person, Long> {
 
     public void createPerson(Long chatId, String firstName, String lastName, String usernameTG,
                              String phone, String work) {
-        if (personRepository.findByChatId(chatId).isPresent()) {
+        if (repository.findByChatId(chatId).isPresent()) {
                 throw new EntityExistsException("Person with chat_id: " + chatId + " already exists");
             }
 
@@ -92,15 +88,14 @@ public class PersonService implements CommonService<Person, Long> {
                     .phone(phone)
                     .build();
 
-            personRepository.save(person);
-
             if (work.equals("executor")) {
                 Executor executor = Executor.builder()
                         .person(person)
                         .build();
-                executorRepository.save(executor);
+
+                person.setExecutor(executor);
             }
 
-
+            repository.save(person);
     }
 }
