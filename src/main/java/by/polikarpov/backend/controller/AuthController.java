@@ -1,7 +1,9 @@
 package by.polikarpov.backend.controller;
 
+import by.polikarpov.backend.bean.HttpSessionBean;
 import by.polikarpov.backend.entity.Person;
 import by.polikarpov.backend.service.PersonService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,44 +16,48 @@ import java.util.Map;
 public class AuthController {
 
     private final PersonService service;
+    private final HttpSessionBean httpSessionBean;
 
     @Autowired
-    public AuthController(PersonService service) {
+    public AuthController(PersonService service, HttpSessionBean httpSessionBean) {
         this.service = service;
+        this.httpSessionBean = httpSessionBean;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody Map<String, String> payload, HttpSession session) {
+    public ResponseEntity<Void> login(@RequestBody Map<String, String> payload) {
         String chatId = payload.get("chatId");
 
         if (chatId.isEmpty()) {
-            System.out.println("ChatId: " + chatId);
             return ResponseEntity.badRequest().build();
         }
 
-        System.out.println(chatId);
+        try {
+            Person person = service.findById(Long.valueOf(chatId));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        }
 
-        session.setAttribute("chatId", chatId);
+        httpSessionBean.setChatId(Long.valueOf(chatId));
 
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("profile")
-    public ResponseEntity<Long> getChatId(HttpSession session) {
-        String chatId = (String) session.getAttribute("chatId");
-        System.out.println("ChatId: " + chatId);
+    public ResponseEntity<Long> getChatId() {
+        Long chatId = httpSessionBean.getChatId();
 
         if (chatId == null) {
             return ResponseEntity.notFound().build();
         }
 
-        Person person = service.findById(Long.parseLong(chatId));
-
-        if (person == null) {
+        try {
+            Person person = service.findById(chatId);
+        } catch (EntityNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(Long.parseLong(chatId));
+        return ResponseEntity.ok(chatId);
     }
 
 }
